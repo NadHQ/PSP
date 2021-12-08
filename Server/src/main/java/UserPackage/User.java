@@ -5,7 +5,7 @@ public class User {
     private String login;
     private String Pass;
     private String status;
-
+    private String role;
     public int getId() {
         return id;
     }
@@ -45,6 +45,4 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    String role;
 }

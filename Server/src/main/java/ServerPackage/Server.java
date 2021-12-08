@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import UserPackage.User;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
 public class Server implements ClientDataProcessing {
     static final String DB_URL = "jdbc:postgresql://localhost:5432/kursovaya";
     static final String DB_USER = "admin";
@@ -52,7 +54,7 @@ public class Server implements ClientDataProcessing {
             } else if (choose == 2) {
                 serv.AuthFunction(inputStream, callableState, outputStream);
             } else if (choose == 3) {
-
+r
             }
         }
     }
@@ -142,18 +144,45 @@ public class Server implements ClientDataProcessing {
             if (ch == 1) {
                 ViewUsers(dataOutputStream, usr, callableState);
             } else if (ch == 2) {
+                System.out.println("edit func");
                 Edit(dataOutputStream, inputStream, usr, callableState);
             } else if (ch == 3) {
                 DeleteUser(inputStream, dataOutputStream, usr, callableState);
             } else if (ch == 4) {
-                AddUser(dataOutputStream, callableState);
+                AddUser(dataOutputStream, callableState, inputStream);
             } else if (ch == 5) {
-                BlockUser(dataOutputStream, usr, callableState);
+                BlockUser(inputStream, usr, callableState);
+            } else if (ch == 6) {
+                UnblockUser(inputStream, usr, callableState);
             }
         }
     }
 
-    private void AddUser(DataOutputStream dataOutputStream, Statement callableState) {
+    private void UnblockUser(DataInputStream inputStream, User usr, Statement callableState) {
+        Integer UnblockId = null;
+        try {
+            UnblockId = inputStream.readInt();
+            callableState.executeUpdate(String.format("update \"user\" set status = 't' where id = %s", UnblockId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void AddUser(DataOutputStream dataOutputStream, Statement callableState , DataInputStream inputStream) {
+            User AddUser = new User();
+        try {
+            AddUser.setLogin(ReadCharToString(inputStream));
+            AddUser.setPass(ReadCharToString(inputStream));
+            AddUser.setStatus(ReadCharToString(inputStream));
+            AddUser.setRole(ReadCharToString(inputStream));
+            callableState.executeUpdate(String.format("insert into \"user\"(log,pass,status,role) values ('%s','%s','%s','%s');", AddUser.getLogin(),AddUser.getPass(),AddUser.getStatus(),AddUser.getRole()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void DeleteUser(DataInputStream inputStream, DataOutputStream dataOutputStream, User usr, Statement callableState) {
@@ -175,6 +204,26 @@ public class Server implements ClientDataProcessing {
     }
 
     private void Edit(DataOutputStream dataOutputStream, DataInputStream inputStream, User usr, Statement callableState) {
+        System.out.println("DONE1");
+        try {
+            String Idvar = ReadCharToString(inputStream);
+            System.out.println(Idvar);
+            String Login = ReadCharToString(inputStream);
+            System.out.println(Login);
+            String Pass = ReadCharToString(inputStream);
+            System.out.println(Pass);
+            String Status = ReadCharToString(inputStream);
+            System.out.println(Status);
+            String Role = ReadCharToString(inputStream);
+            System.out.println(Role);
+
+            callableState.executeUpdate(String.format("update \"user\" set log = '%s', pass = '%s', status = '%s', role = '%s' where id = %s;", Login, Pass, Status, Role, Idvar));
+            System.out.println("DONE");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void ViewUsers(DataOutputStream dataOutputStream, User usr, Statement callableState) {
@@ -198,8 +247,16 @@ public class Server implements ClientDataProcessing {
         }
     }
 
-    private void BlockUser(DataOutputStream dataOutputStream, User usr, Statement callableState) {
-
+    private void BlockUser(DataInputStream inputStream, User usr, Statement callableState) {
+        Integer BlockId = null;
+        try {
+            BlockId = inputStream.readInt();
+            callableState.executeUpdate(String.format("update \"user\" set status = 'f' where id = %s", BlockId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void UserFunc(DataInputStream inputStream, DataOutputStream outputStream, User usr, Statement callableState) {
