@@ -1,10 +1,12 @@
-package com.example.client;
+package AuthReg;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.example.client.HelloController;
+import com.example.client.ServerUse;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -84,7 +86,7 @@ public class AuthController extends HelloController {
                     if (UserRole.equals("0")) {
                         authButton.getScene().getWindow().hide();
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("User.fxml"));
+                        loader.setLocation(getClass().getResource("/com/example/client/User.fxml"));
                         try {
                             loader.load();
                         } catch (IOException e) {
@@ -98,7 +100,7 @@ public class AuthController extends HelloController {
                     if (UserRole.equals("1")) {
                         authButton.getScene().getWindow().hide();
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("Admin.fxml"));
+                        loader.setLocation(getClass().getResource("/com/example/client/Admin.fxml"));
                         try {
                             loader.load();
                         } catch (IOException e) {

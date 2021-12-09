@@ -6,12 +6,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.HelloController">
    <children>
       <AnchorPane prefHeight="106.0" prefWidth="800.0" style="-fx-background-color: #D24136;">
          <children>
-            <Text layoutX="334.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kursach" wrappingWidth="266.7294921875">
+            <Text layoutX="334.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Курсовая" wrappingWidth="266.7294921875">
                <font>
                   <Font name="Phetsarath OT" size="34.0" />
                </font>

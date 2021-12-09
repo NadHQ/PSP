@@ -1,15 +1,17 @@
-package com.example.client;
+package UserAdmin;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.example.client.HelloController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class UserController extends HelloController{
+public class UserController extends HelloController {
 
     @FXML
     private ResourceBundle resources;

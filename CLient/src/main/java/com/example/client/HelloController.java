@@ -1,10 +1,6 @@
 package com.example.client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -15,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class HelloController {
-    ServerUse serv = ServerUse.getInstance();
+    public ServerUse serv = ServerUse.getInstance();
     @FXML
     private ResourceBundle resources;
 

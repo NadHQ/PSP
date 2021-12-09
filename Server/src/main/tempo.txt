@@ -1,0 +1,233 @@
+
+    public Double PredictionFunc(String StringData) throws IOException, ParseException {
+        StringBuilder result = new StringBuilder();
+        JSONParser parser = new JSONParser();
+        URL url = new URL("http://127.0.0.1:5000/helloworld");
+        JSONObject senddata = new JSONObject();
+        senddata.put("data", StringData);
+        System.out.println(senddata);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("PUT");
+        conn.setDoOutput(true);
+        OutputStream out = conn.getOutputStream();
+        byte[] out1 = senddata.toJSONString().getBytes(StandardCharsets.UTF_8);
+        out.write(out1);
+        out.close();
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(conn.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result.append(line);
+            }
+        }
+        String res = result.toString();
+        JSONObject object = (JSONObject) parser.parse(res);
+        Double dat = (Double) object.get("name");
+        return dat;
+    }
+
+
+//    public void RegistrationFunction(DataInputStream inputStream, Statement callableState, DataOutputStream outputStream) {
+//        try {
+//            ResultSet result;
+//            String login = ReadCharToString(inputStream);
+//            String pass = ReadCharToString(inputStream);
+//            String state = String.format("SELECT * FROM \"user\" where log = '%s'", login);
+//            result = callableState.executeQuery(state);
+//            if (result.next()) {
+//                outputStream.writeInt(0);
+//            } else {
+//                outputStream.writeInt(1);
+//                state = String.format("INSERT INTO \"user\"(log, pass, status, role) values ('%s','%s','t',0);", login, pass);
+//                callableState.executeUpdate(state);
+//                System.out.println(state);
+//            }
+//        } catch (IOException | SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void AuthFunction(DataInputStream inputStream, Statement callableState, DataOutputStream dataOutputStream) throws IOException {
+        User usr = new User();
+        ResultSet result;
+        String login = ReadCharToString(inputStream);
+        String pass = ReadCharToString(inputStream);
+        System.out.println(login);
+        System.out.println(pass);
+        String state = String.format("SELECT * FROM \"user\" where log = '%s'", login);
+        try {
+            result = callableState.executeQuery(state);
+            if (result.next()) {
+                String status = result.getString(4);
+                System.out.println(status);
+                usr.setId(result.getInt(1));
+                usr.setLogin(result.getString(2));
+                WriteCharToStream(status, dataOutputStream);
+                WriteCharToStream(result.getString(5), dataOutputStream);
+                if (result.getString(5).equals("0")) {
+                    UserFunc(inputStream, dataOutputStream, usr, callableState);
+                } else if (result.getString(5).equals("1")) {
+                    AdminFunc(inputStream, dataOutputStream, usr, callableState);
+                }
+            } else {
+                WriteCharToStream("error", dataOutputStream);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AdminFunc(DataInputStream inputStream, DataOutputStream dataOutputStream, User usr, Statement callableState) throws IOException {
+        while (true) {
+            Integer ch = inputStream.readInt();
+            if (ch == 1) {
+                ViewUsers(dataOutputStream, usr, callableState);
+            } else if (ch == 2) {
+                System.out.println("edit func");
+                Edit(dataOutputStream, inputStream, usr, callableState);
+            } else if (ch == 3) {
+                DeleteUser(inputStream, dataOutputStream, usr, callableState);
+            } else if (ch == 4) {
+                AddUser(dataOutputStream, callableState, inputStream);
+            } else if (ch == 5) {
+                BlockUser(inputStream, usr, callableState);
+            } else if (ch == 6) {
+                UnblockUser(inputStream, usr, callableState);
+            }
+        }
+    }
+
+    private void UnblockUser(DataInputStream inputStream, User usr, Statement callableState) {
+        Integer UnblockId = null;
+        try {
+            UnblockId = inputStream.readInt();
+            callableState.executeUpdate(String.format("update \"user\" set status = 't' where id = %s", UnblockId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void AddUser(DataOutputStream dataOutputStream, Statement callableState , DataInputStream inputStream) {
+            User AddUser = new User();
+        try {
+            AddUser.setLogin(ReadCharToString(inputStream));
+            AddUser.setPass(ReadCharToString(inputStream));
+            AddUser.setStatus(ReadCharToString(inputStream));
+            AddUser.setRole(ReadCharToString(inputStream));
+            callableState.executeUpdate(String.format("insert into \"user\"(log,pass,status,role) values ('%s','%s','%s','%s');", AddUser.getLogin(),AddUser.getPass(),AddUser.getStatus(),AddUser.getRole()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void DeleteUser(DataInputStream inputStream, DataOutputStream dataOutputStream, User usr, Statement callableState) {
+        Integer DeleteId = null;
+        try {
+            DeleteId = inputStream.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            callableState.executeUpdate("DELETE from \"data1\" where user_id = " + DeleteId + ";");
+            callableState.executeUpdate("DELETE from \"data2\" where user_id = " + DeleteId + ";");
+            callableState.executeUpdate("DELETE from \"data3\" where user_id = " + DeleteId + ";");
+            callableState.executeUpdate("DELETE from \"result\" where user_id = " + DeleteId + ";");
+            callableState.executeUpdate("DELETE from \"user\" where id = " + DeleteId + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Edit(DataOutputStream dataOutputStream, DataInputStream inputStream, User usr, Statement callableState) {
+        System.out.println("DONE1");
+        try {
+            String Idvar = ReadCharToString(inputStream);
+            System.out.println(Idvar);
+            String Login = ReadCharToString(inputStream);
+            System.out.println(Login);
+            String Pass = ReadCharToString(inputStream);
+            System.out.println(Pass);
+            String Status = ReadCharToString(inputStream);
+            System.out.println(Status);
+            String Role = ReadCharToString(inputStream);
+            System.out.println(Role);
+
+            callableState.executeUpdate(String.format("update \"user\" set log = '%s', pass = '%s', status = '%s', role = '%s' where id = %s;", Login, Pass, Status, Role, Idvar));
+            System.out.println("DONE");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void ViewUsers(DataOutputStream dataOutputStream, User usr, Statement callableState) {
+        ResultSet resultSet, resultSet1;
+        try {
+            System.out.println("123");
+            resultSet = callableState.executeQuery("select * from \"user\";");
+            resultSet1 = genState.executeQuery("select count(*) from \"user\";");
+            while (resultSet1.next()) {
+                dataOutputStream.writeInt(resultSet1.getInt(1));
+            }
+            while (resultSet.next()) {
+                WriteCharToStream(resultSet.getString(1), dataOutputStream);
+                WriteCharToStream(resultSet.getString(2), dataOutputStream);
+                WriteCharToStream(resultSet.getString(3), dataOutputStream);
+                WriteCharToStream(resultSet.getString(4), dataOutputStream);
+                WriteCharToStream(resultSet.getString(5), dataOutputStream);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void BlockUser(DataInputStream inputStream, User usr, Statement callableState) {
+        Integer BlockId = null;
+        try {
+            BlockId = inputStream.readInt();
+            callableState.executeUpdate(String.format("update \"user\" set status = 'f' where id = %s", BlockId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void UserFunc(DataInputStream inputStream, DataOutputStream outputStream, User usr, Statement callableState) {
+        while (true) {
+            try {
+                ArrayList<String> arrayList = new ArrayList<>();
+
+                inputStream.readInt();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < 13; i++) {
+                    arrayList.add(ReadCharToString(inputStream));
+                    System.out.println(i);
+                }
+                stringBuilder.append('[');
+                for (int i = 0; i < 13; i++) {
+                    if (i == 12) {
+                        stringBuilder.append(arrayList.get(i));
+                    } else
+                        stringBuilder.append(arrayList.get(i) + ",");
+                }
+                stringBuilder.append("]");
+                Double predictionVar = PredictionFunc(stringBuilder.toString());
+                arrayList.add(String.valueOf(predictionVar));
+                System.out.println(predictionVar);
+                System.out.println(arrayList);
+                WriteCharToStream(predictionVar.toString(), outputStream);
+                callableState.executeUpdate(String.format("insert into \"data1\"(user_id,crim,zn,indus,chas) values (%d,%s,%s,%s,%s);", usr.getId(), arrayList.get(0), arrayList.get(1), arrayList.get(2), arrayList.get(3)));
+                callableState.executeUpdate(String.format("insert into \"data2\"(user_id,nox,rm,age,dis) values (%d,%s,%s,%s,%s);", usr.getId(), arrayList.get(4), arrayList.get(5), arrayList.get(6), arrayList.get(7)));
+                callableState.executeUpdate(String.format("insert into \"data3\"(user_id,rad,tax,ptration,blck,lstat) values (%d,%s,%s,%s,%s,%s);", usr.getId(), arrayList.get(8), arrayList.get(9), arrayList.get(10), arrayList.get(11), arrayList.get(12)));
+                callableState.executeUpdate(String.format("insert into \"result\"(user_id,predict) values (%d,%s);", usr.getId(), arrayList.get(13)));
+            } catch (IOException | ParseException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }

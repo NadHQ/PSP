@@ -1,10 +1,12 @@
-package com.example.client;
+package UserAdmin;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.example.client.HelloController;
+import com.example.client.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -97,6 +99,7 @@ public class AdminController extends HelloController {
             TableVar.setItems(observableList);
 
         });
+
         DeleteButton.setOnAction(actionEvent -> {
             serv.sendInt(3);
             User deleteData = TableVar.getSelectionModel().getSelectedItem();

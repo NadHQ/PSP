@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="516.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.AdminController">
+<AnchorPane prefHeight="516.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserAdmin.AdminController">
    <children>
       <Button fx:id="EditButton" layoutX="278.0" layoutY="459.0" mnemonicParsing="false" text="Изменить" />
       <Button fx:id="DeleteButton" layoutX="378.0" layoutY="459.0" mnemonicParsing="false" text="Удаление" />

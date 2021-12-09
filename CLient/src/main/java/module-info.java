@@ -5,4 +5,8 @@ module com.example.client {
 
     opens com.example.client to javafx.fxml;
     exports com.example.client;
+    opens AuthReg to javafx.fxml;
+    exports AuthReg;
+    exports UserAdmin;
+    opens UserAdmin to javafx.fxml;
 }

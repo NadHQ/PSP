@@ -41,7 +41,7 @@ public final class ServerUse {
             return null;
         }
     }
-    void WriteCharToStream(String str) throws IOException {
+    public void WriteCharToStream(String str) throws IOException {
         {
             DataOutputStream outputStream = new DataOutputStream(sock.getOutputStream());
             outputStream.writeInt(str.length());

@@ -1,11 +1,10 @@
-package com.example.client;
+package AuthReg;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.example.client.HelloController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -75,7 +74,7 @@ public class RegistrationController extends HelloController {
             }
             regButton.getScene().getWindow().hide();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("Auth.fxml"));
+            loader.setLocation(getClass().getResource("/com/example/client/Auth.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
