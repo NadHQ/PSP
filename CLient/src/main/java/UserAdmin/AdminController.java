@@ -3,6 +3,7 @@ package UserAdmin;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.example.client.HelloController;
@@ -10,8 +11,14 @@ import com.example.client.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class AdminController extends HelloController {
 
@@ -66,6 +73,12 @@ public class AdminController extends HelloController {
 
     @FXML
     private Button ViewButton;
+
+    @FXML
+    private Button CheckStat;
+
+    @FXML
+    private Button CheckUser;
 
     @FXML
     private TextField idEdit;
@@ -184,6 +197,27 @@ public class AdminController extends HelloController {
                 alert.showAndWait();
             }
         });
+        CheckStat.setOnAction(actionEvent -> {
+            serv.sendInt(7);
+            ArrayList<String> arrayList = new ArrayList<>();
+            Stage stage = new Stage();
+            Parent root = null;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/com/example/client/StatApp.fxml"));
+            try {
+                fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            root = fxmlLoader.getRoot();
+            stage.setScene(new Scene(root));
+            stage.setTitle("My modal window");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(
+                    ((Node)actionEvent.getSource()).getScene().getWindow() );
+            stage.show();
+        });
+
     }
 
 }

@@ -9,11 +9,11 @@
 
 <AnchorPane prefHeight="516.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserAdmin.AdminController">
    <children>
-      <Button fx:id="EditButton" layoutX="278.0" layoutY="459.0" mnemonicParsing="false" text="Изменить" />
-      <Button fx:id="DeleteButton" layoutX="378.0" layoutY="459.0" mnemonicParsing="false" text="Удаление" />
-      <Button fx:id="ViewButton" layoutX="59.0" layoutY="459.0" mnemonicParsing="false" text="Просмотр пользователей" />
-      <Button fx:id="AddButton" layoutX="491.0" layoutY="459.0" mnemonicParsing="false" text="Добавить" />
-      <Button fx:id="BlockButton" layoutX="601.0" layoutY="435.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="129.0" text="Заблокировать" />
+      <Button fx:id="EditButton" layoutX="223.0" layoutY="435.0" mnemonicParsing="false" text="Изменить" />
+      <Button fx:id="DeleteButton" layoutX="328.0" layoutY="435.0" mnemonicParsing="false" text="Удаление" />
+      <Button fx:id="ViewButton" layoutX="267.0" layoutY="398.0" mnemonicParsing="false" text="Просмотр пользователей" />
+      <Button fx:id="AddButton" layoutX="444.0" layoutY="435.0" mnemonicParsing="false" text="Добавить" />
+      <Button fx:id="BlockButton" layoutX="31.0" layoutY="478.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="129.0" text="Заблокировать" />
       <TableView fx:id="TableVar" layoutX="59.0" layoutY="23.0" prefHeight="234.0" prefWidth="709.0">
         <columns>
           <TableColumn fx:id="id" prefWidth="138.0" text="id" />
@@ -33,6 +33,8 @@
       <TextField fx:id="PassEdit" layoutX="384.0" layoutY="287.0" prefHeight="24.0" prefWidth="60.0" />
       <TextField fx:id="StatusEdit" layoutX="533.0" layoutY="287.0" prefHeight="24.0" prefWidth="60.0" />
       <TextField fx:id="RoleEdit" layoutX="665.0" layoutY="287.0" prefHeight="24.0" prefWidth="60.0" />
-      <Button fx:id="UnBlockButton" layoutX="601.0" layoutY="471.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="129.0" text="Разблокировать" />
+      <Button fx:id="UnBlockButton" layoutX="182.0" layoutY="478.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="129.0" text="Разблокировать" />
+      <Button fx:id="CheckStat" layoutX="342.0" layoutY="478.0" mnemonicParsing="false" text="Просмотр статистики" />
+      <Button fx:id="CheckUser" layoutX="533.0" layoutY="478.0" mnemonicParsing="false" text="Проверка пользователя" />
    </children>
 </AnchorPane>

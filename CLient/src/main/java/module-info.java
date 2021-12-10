@@ -9,4 +9,5 @@ module com.example.client {
     exports AuthReg;
     exports UserAdmin;
     opens UserAdmin to javafx.fxml;
+    opens ModalControllers to javafx.fxml;
 }

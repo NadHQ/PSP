@@ -18,6 +18,7 @@ public class Administrator implements ClientDataProcessing {
     private User usr;
     private Statement callableState;
     private Statement getCallableState2;
+
     public Administrator(DataOutputStream outputStream, DataInputStream inputStream, User usr, Statement callableState, Statement getCallableState2) {
         this.outputStream = outputStream;
         this.inputStream = inputStream;
@@ -25,6 +26,7 @@ public class Administrator implements ClientDataProcessing {
         this.callableState = callableState;
         this.getCallableState2 = getCallableState2;
     }
+
     public void StartUse() throws IOException {
         while (true) {
             Integer ch = inputStream.readInt();
@@ -41,9 +43,34 @@ public class Administrator implements ClientDataProcessing {
                 BlockUser(inputStream, usr, callableState);
             } else if (ch == 6) {
                 UnblockUser(inputStream, usr, callableState);
+            } else if (ch == 7) {
+                ViewStat(outputStream,callableState);
             }
         }
     }
+
+    private void ViewStat(DataOutputStream outputStream, Statement callableState) {
+        ResultSet resultSet = null;
+        try {
+            resultSet = callableState.executeQuery("select count(id) from \"user\"");
+            while (resultSet.next()){
+                WriteCharToStream(String.format("Количество пользователей: %s", resultSet.getString(1)), outputStream);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            resultSet = callableState.executeQuery("select count(id) from \"data1\"");
+            while (resultSet.next()){
+                WriteCharToStream(String.format("Количесвто запросов: %s",resultSet.getString(1)), outputStream);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void UnblockUser(DataInputStream inputStream, User usr, Statement callableState) {
         Integer UnblockId = null;
         try {
@@ -56,14 +83,14 @@ public class Administrator implements ClientDataProcessing {
         }
     }
 
-    private void AddUser(DataOutputStream dataOutputStream, Statement callableState , DataInputStream inputStream) {
+    private void AddUser(DataOutputStream dataOutputStream, Statement callableState, DataInputStream inputStream) {
         User AddUser = new User();
         try {
             AddUser.setLogin(ReadCharToString(inputStream));
             AddUser.setPass(ReadCharToString(inputStream));
             AddUser.setStatus(ReadCharToString(inputStream));
             AddUser.setRole(ReadCharToString(inputStream));
-            callableState.executeUpdate(String.format("insert into \"user\"(log,pass,status,role) values ('%s','%s','%s','%s');", AddUser.getLogin(),AddUser.getPass(),AddUser.getStatus(),AddUser.getRole()));
+            callableState.executeUpdate(String.format("insert into \"user\"(log,pass,status,role) values ('%s','%s','%s','%s');", AddUser.getLogin(), AddUser.getPass(), AddUser.getStatus(), AddUser.getRole()));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException throwables) {

@@ -21,7 +21,7 @@
       <TextField fx:id="PtratioEdit" layoutX="582.0" layoutY="83.0" prefHeight="11.0" prefWidth="85.0" />
       <TextField fx:id="RadEdit" layoutX="423.0" layoutY="133.0" prefHeight="11.0" prefWidth="85.0" />
       <TextField fx:id="BlckEdit" layoutX="582.0" layoutY="133.0" prefHeight="11.0" prefWidth="85.0" />
-      <Button fx:id="StartButton" layoutX="330.0" layoutY="437.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="85.0" text="Запуск" />
+      <Button fx:id="StartButton" layoutX="184.0" layoutY="436.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="85.0" text="Запуск" />
       <TextArea fx:id="ResultArea" layoutX="96.0" layoutY="226.0" prefHeight="200.0" prefWidth="571.0" />
       <Text layoutX="26.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CRIM" />
       <Text layoutX="33.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ZN" />
@@ -36,5 +36,6 @@
       <Text layoutX="518.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PTRATIO" />
       <Text layoutX="525.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BLCK" />
       <Text layoutX="276.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LSTAT" />
+      <Button fx:id="StatButton" layoutX="361.0" layoutY="436.0" mnemonicParsing="false" text="Просмотр статистики" />
    </children>
 </AnchorPane>
