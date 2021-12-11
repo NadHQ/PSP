@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="597.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ModalControllers.Values">
+   <children>
+      <TextArea fx:id="ValuesText" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="570.0" prefWidth="628.0" />
+   </children>
+</AnchorPane>

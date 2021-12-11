@@ -76,6 +76,8 @@ public class UserController extends HelloController {
     private TextField ZNEdit;
 
     @FXML
+    private Button ValuesButton;
+    @FXML
     void initialize() {
             StartButton.setOnAction(actionEvent -> {
                 serv.sendInt(1);
@@ -126,6 +128,24 @@ public class UserController extends HelloController {
                 Parent root = null;
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/com/example/client/StatByUser.fxml"));
+                try {
+                    fxmlLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                root = fxmlLoader.getRoot();
+                stage.setScene(new Scene(root));
+                stage.setTitle("My modal window");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(
+                        ((Node)actionEvent.getSource()).getScene().getWindow() );
+                stage.show();
+            });
+            ValuesButton.setOnAction(actionEvent -> {
+                Stage stage = new Stage();
+                Parent root = null;
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/com/example/client/Values.fxml"));
                 try {
                     fxmlLoader.load();
                 } catch (IOException e) {

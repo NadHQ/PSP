@@ -217,6 +217,28 @@ public class AdminController extends HelloController {
                     ((Node)actionEvent.getSource()).getScene().getWindow() );
             stage.show();
         });
+        CheckUser.setOnAction(actionEvent -> {
+            serv.sendInt(8);
+            User usr;
+            usr = TableVar.getSelectionModel().getSelectedItem();
+            serv.sendInt( usr.getId());
+            Stage stage = new Stage();
+            Parent root = null;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/com/example/client/StatByAdmin.fxml"));
+            try {
+                fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            root = fxmlLoader.getRoot();
+            stage.setScene(new Scene(root));
+            stage.setTitle("My modal window");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(
+                    ((Node)actionEvent.getSource()).getScene().getWindow() );
+            stage.show();
+        });
 
     }
 

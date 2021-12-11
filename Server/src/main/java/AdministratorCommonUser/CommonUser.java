@@ -27,6 +27,7 @@ public class CommonUser implements ClientDataProcessing {
         this.usr = usr;
         this.callableState = callableState;
     }
+
     public void startUse() throws IOException {
         while (true) {
             Integer ch = inputStream.readInt();
@@ -67,7 +68,6 @@ public class CommonUser implements ClientDataProcessing {
     public void MakePrediction(){
         try {
             ArrayList<String> arrayList = new ArrayList<>();
-            inputStream.readInt();
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 13; i++) {
                 arrayList.add(ReadCharToString(inputStream));

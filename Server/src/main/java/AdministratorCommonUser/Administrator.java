@@ -46,6 +46,29 @@ public class Administrator implements ClientDataProcessing {
             } else if (ch == 7) {
                 ViewStat(outputStream,callableState);
             }
+            else if(ch == 8){
+                CheckUserStat(outputStream, inputStream, callableState);
+            }
+        }
+    }
+
+    private void CheckUserStat(DataOutputStream outputStream, DataInputStream inputStream, Statement callableState) {
+        try {
+            Integer userId = inputStream.readInt();
+            ResultSet resultSet = callableState.executeQuery(String.format("select * from \"user\" where id = %s ",userId));
+            while (resultSet.next()){
+                for (int i = 1; i <= 5; i++) {
+                    WriteCharToStream(resultSet.getString(i),outputStream);
+                }
+            }
+            resultSet = callableState.executeQuery(String.format("select count(user_id) from \"data1\" where user_id = %s", userId));
+            while(resultSet.next()){
+                outputStream.writeInt(resultSet.getInt(1));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
