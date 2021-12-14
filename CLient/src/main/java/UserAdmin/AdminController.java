@@ -130,6 +130,7 @@ public class AdminController extends HelloController {
             User UnBlockData = TableVar.getSelectionModel().getSelectedItem();
             serv.sendInt(UnBlockData.getId());
         });
+
         EditButton.setOnAction(actionEvent -> {
             User EditData;
             if (EditButton.getText().equals("Изменить")) {
@@ -170,6 +171,7 @@ public class AdminController extends HelloController {
                 }
             }
         });
+
         AddButton.setOnAction(actionEvent -> {
             if (LoginEdit.getText().length() != 0) {
                 if (PassEdit.getText().length() != 0) {

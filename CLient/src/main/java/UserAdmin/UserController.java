@@ -169,10 +169,10 @@ public class UserController extends HelloController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Reg Error");
             alert.setHeaderText("ERROR");
-            alert.setContentText("Число должно быть корректным");
+            alert.setContentText("Число должно быть корректным \nНеправильное число считается равное нулю");
             alert.show();
+            return "0";
         }
-        return str;
     }
 
 

@@ -1,0 +1,109 @@
+CREATE DATABASE kursovaya
+    WITH 
+    OWNER = admin
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'ru_RU.UTF-8'
+    LC_CTYPE = 'ru_RU.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+CREATE TABLE IF NOT EXISTS public.data1
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    user_id integer,
+    crim double precision,
+    zn double precision,
+    indus double precision,
+    chas double precision,
+    CONSTRAINT data1_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.data1
+    OWNER to admin;
+CREATE TABLE IF NOT EXISTS public.data2
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    user_id integer,
+    nox double precision,
+    rm double precision,
+    age double precision,
+    dis double precision,
+    CONSTRAINT data2_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.data2
+    OWNER to admin;
+CREATE TABLE IF NOT EXISTS public.data3
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    user_id integer,
+    rad double precision,
+    tax double precision,
+    ptration double precision,
+    blck double precision,
+    lstat double precision,
+    CONSTRAINT data3_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.data3
+    OWNER to admin;
+CREATE TABLE IF NOT EXISTS public.result
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    user_id integer,
+    predict double precision,
+    CONSTRAINT result_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.result
+    OWNER to admin;
+CREATE TABLE IF NOT EXISTS public."user"
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    log character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    pass character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    status boolean NOT NULL,
+    role integer NOT NULL,
+    CONSTRAINT "User_pkey" PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."user"
+    OWNER to admin;
+
+ALTER TABLE IF EXISTS public."user"
+    ALTER COLUMN log SET STATISTICS 1;
